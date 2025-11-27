@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#208098">
+  <meta name="description" content="Полная программа тренировок калистеникой с видео-уроками">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Калистеника">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- PWA Manifest Inline -->
+  <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Калистеника%202025%22,%22short_name%22:%22Калистеника%22,%22description%22:%22Полная программа тренировок калистеникой%22,%22start_url%22:%22./index.html%22,%22display%22:%22standalone%22,%22orientation%22:%22portrait-primary%22,%22background_color%22:%22%23fcfcf9%22,%22theme_color%22:%22%23208098%22,%22icons%22:[{%22src%22:%22data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjMjA4MDk4IiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQ4Ii8+PHRleHQgeD0iOTYiIHk9IjEwNCIgZm9udC1zaXplPSI4MCIgZmlsbD0iI2ZjZmNmOSIgYWxpZ25tZW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkPDrsK3PC90ZXh0Pjwvc3ZnPg==%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22}]}">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjMjA4MDk4IiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQ4Ii8+PHRleHQgeD0iOTYiIHk9IjEwNCIgZm9udC1zaXplPSI4MCIgZmlsbD0iI2ZjZmNmOSIgYWxpZ25tZW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkPDrsK3PC90ZXh0Pjwvc3ZnPg==">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjMjA4MDk4IiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIi8+PHRleHQgeD0iOTAiIHk9IjEwMCIgZm9udC1zaXplPSI3MCIgZmlsbD0iI2ZjZmNmOSIgYWxpZ25tZW50LWJhc2VsaW5lPSJtaWRkbGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkPDrsK3PC90ZXh0Pjwvc3ZnPg==">
+  
+  <title>Калистеника</title>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fcfcf9; color: #134252; line-height: 1.6; }
+    input, textarea, select, button { -webkit-user-select: text; user-select: text; }
+    .install-banner { display: none; background: linear-gradient(135deg, #208098 0%, #1a6873 100%); color: #fcfcf9; padding: 16px; border-radius: 12px; margin: 16px; text-align: center; box-shadow: 0 4px 12px rgba(32, 128, 152, 0.15); }
+    .install-banner.show { display: block; animation: slideUp 0.3s ease-out; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .install-banner button { background: #fcfcf9; color: #208098; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; margin-top: 12px; cursor: pointer; }
+    .offline-indicator { display: none; position: fixed; bottom: 20px; right: 20px; background: #f97316; color: white; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; z-index: 1000; }
+    .offline-indicator.show { display: block; }
+    .app-container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .app-header { text-align: center; margin-bottom: 32px; padding-top: 20px; }
+    .app-header h1 { font-size: 28px; margin-bottom: 8px; color: #134252; }
+    .app-header p { color: #626c70; font-size: 14px; }
+    .day-nav { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center; }
+    .day-btn { padding: 12px 20px; border: 2px solid #208098; background: white; color: #208098; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; min-width: 100px; font-size: 14px; }
+    .day-btn.active { background: #208098; color: white; box-shadow: 0 4px 12px rgba(32, 128, 152, 0.3); }
+    .day-btn small { display: block; font-size: 11px; opacity: 0.8; margin-top: 2px; }
+    .day-content { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); }
+    .day-content h2 { color: #208098; margin-bottom: 12px; font-size: 22px; }
+    .day-content p { color: #626c70; margin-bottom: 16px; }
+    .exercise { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; }
+    .exercise:active { background: #f9fafb; border-color: #208098; }
+    .exercise-header { display: flex; align-items: center; gap: 12px; justify-content: space-between; }
+    .exercise-title { font-weight: 600; color: #134252; flex: 1; }
+    .exercise-info { font-size: 12px; color: #626c70; margin-top: 6px; }
+    .checkbox { width: 24px; height: 24px; min-width: 24px; cursor: pointer; accent-color: #208098; }
+    .exercise-details { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7eb; display: none; }
+    .exercise.expanded .exercise-details { display: block; }
+    .detail-section { margin-bottom: 12px; }
+    .detail-label { font-weight: 600; color: #208098; font-size: 12px; text-transform: uppercase; margin-bottom: 6px; }
+    .detail-text { color: #626c70; font-size: 14px; line-height: 1.5; }
+    .video-button { display: inline-block; background: #e74c3c; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600; margin-top: 8px; border: none; cursor: pointer; }
+    .stretching-section { margin-top: 24px; padding-top: 24px; border-top: 2px solid #e5e7eb; }
+    .stretching-section h3 { color: #208098; margin-bottom: 16px; }
+    .app-footer { text-align: center; color: #626c70; font-size: 12px; margin-top: 32px; padding-bottom: 20px; }
+    @media (max-width: 600px) {
+      .app-header h1 { font-size: 22px; }
+      .day-nav { gap: 8px; }
+      .day-btn { flex: 1; min-width: 80px; }
+      .day-content { padding: 16px; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #1a1a1a; color: #e5e7eb; }
+      .day-content { background: #2a2a2a; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); }
+      .exercise { border-color: #404040; background: #242424; }
+      .day-btn { background: #2a2a2a; border-color: #208098; color: #208098; }
+      .day-btn.active { background: #208098; color: #fcfcf9; }
+    }
+  </style>
+</head>
+<body>
+  <div class="install-banner" id="installBanner">
+    <p>📱 Установите приложение на рабочий стол</p>
+    <button onclick="installApp()">Установить</button>
+  </div>
+  <div class="offline-indicator" id="offlineIndicator">📡 Работает офлайн</div>
+  <div class="app-container">
+    <div class="app-header">
+      <h1>💪 Калистеника</h1>
+      <p>3-дневная программа тренировок</p>
+    </div>
+    <div class="day-nav">
+      <button class="day-btn active" onclick="switchDay(1)">День 1<small>Жим</small></button>
+      <button class="day-btn" onclick="switchDay(2)">День 2<small>Тяга</small></button>
+      <button class="day-btn" onclick="switchDay(3)">День 3<small>Баланс</small></button>
+    </div>
+    <div id="dayContent"></div>
+    <div class="app-footer">
+      <p>✨ Программа для продвинутых спортсменов</p>
+      <p>Версия 3.0 PWA • Работает офлайн</p>
+    </div>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      const swCode = `const CACHE = 'cal-v3';
+self.addEventListener('install', e => {e.waitUntil(caches.open(CACHE)); self.skipWaiting();});
+self.addEventListener('activate', e => {e.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))); self.clients.claim();});
+self.addEventListener('fetch', e => {e.respondWith(fetch(e.request).then(r => {if (r && r.status === 200) {const c = r.clone(); caches.open(CACHE).then(cache => cache.put(e.request, c));}return r;}).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html'))));});`;
+      const blob = new Blob([swCode], {type: 'application/javascript'});
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBanner').classList.add('show');
+    });
+    function installApp() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(c => {
+          if (c.outcome === 'accepted') document.getElementById('installBanner').classList.remove('show');
+          deferredPrompt = null;
+        });
+      }
+    }
+    window.addEventListener('online', () => document.getElementById('offlineIndicator').classList.remove('show'));
+    window.addEventListener('offline', () => document.getElementById('offlineIndicator').classList.add('show'));
+    if (!navigator.onLine) document.getElementById('offlineIndicator').classList.add('show');
+
+    const data = {
+      1: { name: 'День 1', subtitle: 'Жим и Стойка на Руках', duration: '95 мин', exercises: [
+        { name: 'Гиперэкстензия плеч', sets: '10 повторений', muscles: 'Плечи', tech: 'Встаньте прямо, руки на уровне плеч. Медленно опустите вниз и назад.', mistakes: 'Маховые движения', prog: 'Обычное → с палкой → с весом', video: 'https://www.youtube.com/results?search_query=плечи+разминка' },
+        { name: 'A-фрейм у стены', sets: '4×30-45 сек', muscles: 'Плечи, кор', tech: 'Руки на полу близко к стене, ноги на стене. Угол 45°.', mistakes: 'Разрыв кора', prog: '45° → 60° → 75°', video: 'https://www.youtube.com/results?search_query=A-frame+handstand' },
+        { name: 'Стойка на руках у стены', sets: '5×20-30 сек', muscles: 'Плечи, кор', tech: 'Спиной к стене. Руки на полу 30см от стены.', mistakes: 'Прогиб спины', prog: 'Согнуты → выпрямлены → отходят', video: 'https://gmb.io/handstand/' }
+      ], stretches: [
+        { name: 'Downward Dog', duration: '30-45 сек × 2', desc: 'Упор, таз вверх, буква А' },
+        { name: 'Camel Pose', duration: '20-30 сек × 2', desc: 'На коленях, прогиб назад' }
+      ]},
+      2: { name: 'День 2', subtitle: 'Тяга, Ноги и Передний Вис', duration: '100 мин', exercises: [
+        { name: 'Tuck Front Lever', sets: '5×10-20 сек', muscles: 'Спина, кор', tech: 'Повис, колени к груди группировка.', mistakes: 'Опущение спины', prog: 'Tuck → Single-leg → Full', video: 'https://www.youtube.com/results?search_query=front+lever+tuck' },
+        { name: 'Подтягивания широким', sets: '5×8-10', muscles: 'Спина', tech: 'Хват шире плеч, грудь к турнику.', mistakes: 'Инерция', prog: 'Обычные → с весом → archer', video: 'https://www.youtube.com/results?search_query=wide+grip+pull-ups' },
+        { name: 'Пистолет с ассистой', sets: '4×5-8 нога', muscles: 'Ноги', tech: 'Держитесь за палку, опуститесь на одной.', mistakes: 'Много рук', prog: 'С палкой → касание → чистый', video: 'https://www.youtube.com/results?search_query=pistol+squat' }
+      ], stretches: [
+        { name: 'Forward Fold', duration: '45 сек', desc: 'Наклон вперед' },
+        { name: 'Hip Stretch', duration: '30 сек', desc: 'Растяжка бедра' }
+      ]},
+      3: { name: 'День 3', subtitle: 'Баланс, Планш и Кор', duration: '90 мин', exercises: [
+        { name: 'Tuck Planche', sets: '5×15-30 сек', muscles: 'Грудь, плечи', tech: 'Упор лежа, согнуть колени, таз вверх.', mistakes: 'Спина прогибается', prog: 'Tuck → Advanced → Straddle', video: 'https://www.youtube.com/results?search_query=planche+tuck' },
+        { name: 'Pike Push-Ups', sets: '4×6-10', muscles: 'Плечи', tech: 'V-положение, согнуть локти вниз.', mistakes: 'Локти в стороны', prog: '30° → 60° → 75°', video: 'https://www.youtube.com/watch?v=paCOGgmLCA0' },
+        { name: 'Dragon Flag', sets: '4×3-5', muscles: 'Пресс', tech: 'На скамье, поднять прямое тело.', mistakes: 'Быстро опускаешь', prog: 'Спуск → полный → движение', video: 'https://www.youtube.com/results?search_query=dragon+flag' }
+      ], stretches: [
+        { name: 'Pancake', duration: '45 сек', desc: 'Ноги вместе, наклон' },
+        { name: 'Chest Stretch', duration: '30 сек', desc: 'Растяжка груди' }
+      ]}
+    };
+
+    function renderDay(d) {
+      const x = data[d];
+      let h = `<div class="day-content"><h2>${x.name} - ${x.subtitle}</h2><p>⏱️ ${x.duration}</p>`;
+      x.exercises.forEach(e => {
+        h += `<div class="exercise" onclick="this.classList.toggle('expanded')">
+          <div class="exercise-header">
+            <div><div class="exercise-title">${e.name}</div><div class="exercise-info">${e.sets} • ${e.muscles}</div></div>
+            <input type="checkbox" class="checkbox" onclick="event.stopPropagation()">
+          </div>
+          <div class="exercise-details">
+            <div class="detail-section"><div class="detail-label">📋 Техника</div><div class="detail-text">${e.tech}</div></div>
+            <div class="detail-section"><div class="detail-label">⚠️ Ошибки</div><div class="detail-text">${e.mistakes}</div></div>
+            <div class="detail-section"><div class="detail-label">📈 Прогрессия</div><div class="detail-text">${e.prog}</div></div>
+            <a href="${e.video}" target="_blank" class="video-button">📹 Видео</a>
+          </div>
+        </div>`;
+      });
+      h += '<div class="stretching-section"><h3>🧘 Растяжка (15 мин)</h3>';
+      x.stretches.forEach(s => {
+        h += `<div class="exercise" onclick="this.classList.toggle('expanded')">
+          <div class="exercise-header">
+            <div><div class="exercise-title">${s.name}</div><div class="exercise-info">${s.duration}</div></div>
+            <input type="checkbox" class="checkbox" onclick="event.stopPropagation()">
+          </div>
+          <div class="exercise-details"><div class="detail-text">${s.desc}</div></div>
+        </div>`;
+      });
+      h += '</div></div>';
+      document.getElementById('dayContent').innerHTML = h;
+    }
+
+    function switchDay(d) {
+      document.querySelectorAll('.day-btn').forEach((b, i) => b.classList.toggle('active', i === d - 1));
+      renderDay(d);
+    }
+
+    renderDay(1);
+    console.log('✅ App ready');
+  </script>
+</body>
+</html>
