@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#208098">
+  <meta name="description" content="Полная программа тренировок калистеникой">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Калистеника</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fcfcf9; color: #134252; line-height: 1.6; }
+    input, button { -webkit-user-select: text; user-select: text; }
+    .app-container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .app-header { text-align: center; margin-bottom: 32px; padding-top: 20px; }
+    .app-header h1 { font-size: 28px; margin-bottom: 8px; }
+    .app-header p { color: #626c70; font-size: 14px; }
+    .day-nav { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center; }
+    .day-btn { padding: 12px 20px; border: 2px solid #208098; background: white; color: #208098; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; min-width: 100px; }
+    .day-btn.active { background: #208098; color: white; box-shadow: 0 4px 12px rgba(32, 128, 152, 0.3); }
+    .day-btn small { display: block; font-size: 11px; opacity: 0.8; margin-top: 2px; }
+    .day-content { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); }
+    .day-content h2 { color: #208098; margin-bottom: 12px; font-size: 22px; }
+    .day-content p { color: #626c70; margin-bottom: 16px; }
+    .exercise { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .exercise-header { display: flex; align-items: center; gap: 12px; justify-content: space-between; cursor: pointer; }
+    .exercise-title { font-weight: 600; color: #134252; flex: 1; }
+    .exercise-info { font-size: 12px; color: #626c70; margin-top: 4px; }
+    .checkbox { width: 24px; height: 24px; min-width: 24px; cursor: pointer; accent-color: #208098; }
+    .exercise-details { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7eb; }
+    .detail-section { margin-bottom: 12px; }
+    .detail-label { font-weight: 600; color: #208098; font-size: 11px; text-transform: uppercase; margin-bottom: 6px; }
+    .detail-text { color: #626c70; font-size: 13px; line-height: 1.5; }
+    .video-button { display: inline-block; background: #e74c3c; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 600; margin-top: 8px; border: none; cursor: pointer; }
+    .stretching-section { margin-top: 24px; padding-top: 24px; border-top: 2px solid #e5e7eb; }
+    .stretching-section h3 { color: #208098; margin-bottom: 16px; }
+    .app-footer { text-align: center; color: #626c70; font-size: 12px; margin-top: 32px; padding-bottom: 20px; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #1a1a1a; color: #e5e7eb; }
+      .day-content { background: #2a2a2a; }
+      .exercise { border-color: #404040; background: #242424; }
+      .day-btn.active { background: #208098; color: #fcfcf9; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <h1>💪 Калистеника</h1>
+      <p>3-дневная программа тренировок</p>
+    </div>
+    <div class="day-nav">
+      <button class="day-btn active" onclick="switchDay(1)">День 1<small>Жим</small></button>
+      <button class="day-btn" onclick="switchDay(2)">День 2<small>Тяга</small></button>
+      <button class="day-btn" onclick="switchDay(3)">День 3<small>Баланс</small></button>
+    </div>
+    <div id="dayContent"></div>
+    <div class="app-footer">
+      <p>✨ Программа для продвинутых спортсменов</p>
+      <p>Версия 3.0 • Работает офлайн</p>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      1: { 
+        name: 'День 1', 
+        subtitle: 'Жим и Стойка на Руках', 
+        duration: '95 мин', 
+        exercises: [
+          { 
+            name: 'Гиперэкстензия плеч', 
+            sets: '10 повторений', 
+            muscles: 'Плечи, спина',
+            tech: 'Встаньте прямо, ноги на ширине плеч, руки перед собой на уровне плеч. Медленно опустите руки вниз и назад дугой, как будто пытаетесь завести их за спину. Почувствуйте натяжение в передней части плеча.',
+            mistakes: 'Маховые движения вместо контролируемых, неправильное движение в суставе, слишком быстрый темп',
+            prog: 'Обычное упражнение → с палкой → с отягощением',
+            video: 'https://www.youtube.com/results?search_query=плечи+разминка'
+          },
+          { 
+            name: 'A-фрейм у стены', 
+            sets: '4×30-45 сек', 
+            muscles: 'Плечи, кор, запястья',
+            tech: 'Встаньте в позицию для отжимания. Руки на полу близко к стене (15-20см), ноги на стене. Тело образует угол примерно 45 градусов. Держите полное напряжение кора, прямое тело от головы до пяток.',
+            mistakes: 'Разрыв кора (прогиб в пояснице), плечи не над запястьями, спешка при выходе',
+            prog: 'A-фрейм 45° (ноги низко) → 60° → 75° (ноги высоко)',
+            video: 'https://www.youtube.com/results?search_query=A-frame+handstand'
+          },
+          { 
+            name: 'Стойка на руках у стены', 
+            sets: '5×20-30 сек', 
+            muscles: 'Плечи, кор, запястья, руки',
+            tech: 'Встаньте спиной к стене. Руки на полу примерно 30см от стены. Прыгните или медленно поднимайте ноги по стене до параллели с полом. Плечи должны быть прямо над запястьями. Включите полное тело в hollow body позицию.',
+            mistakes: 'Прогиб спины (бананообразная спина), плечи впереди запястий, ноги соскальзывают',
+            prog: 'Ноги согнуты на стене → ноги выпрямлены → постепенно отходят от стены',
+            video: 'https://gmb.io/handstand/'
+          },
+          {
+            name: 'Pike Push-Ups',
+            sets: '4×6-10',
+            muscles: 'Плечи, верхняя грудь, трицепсы',
+            tech: 'Из положения планки поднимите бедра вверх, образуя букву V. Согните локти и опустите голову между руками. Выпрямите руки обратно в V-позицию. Это один повтор.',
+            mistakes: 'Локти разводятся в стороны, ослабление кора, неполное движение',
+            prog: 'Pike 30-45° → 60-75° → почти вертикально',
+            video: 'https://www.youtube.com/watch?v=paCOGgmLCA0'
+          },
+          {
+            name: 'Отжимания от брусьев',
+            sets: '4×8-12',
+            muscles: 'Грудь, трицепсы, плечи',
+            tech: 'Прыгните на брусья, выпрямите руки. Наклонитесь туловищем вперед. Согните локти и опустите тело до 90 градусов в локтях. Выпрямите руки обратно.',
+            mistakes: 'Слишком глубокое погружение, локти в стороны, отсутствие наклона туловища',
+            prog: 'Брусья 8-12 повторений → добавьте вес → прямые брусья',
+            video: 'https://www.youtube.com/results?search_query=отжимания+брусья'
+          }
+        ], 
+        stretches: [
+          { name: 'Downward Dog', duration: '30-45 сек × 2', desc: 'Встаньте в упоре, поднимите таз вверх, образуя букву А. Полностью выпрямите руки.' },
+          { name: 'Camel Pose', duration: '20-30 сек × 2', desc: 'На коленях, руки на пояснице. Медленно прогибайтесь назад, открывая грудь.' },
+          { name: 'Triceps Stretch', duration: '30 сек каждая', desc: 'Заведите руку за голову, согните локоть и потяните с другой стороны.' }
+        ]
+      },
+      2: { 
+        name: 'День 2', 
+        subtitle: 'Тяга, Ноги и Передний Вис', 
+        duration: '100 мин',
+        exercises: [
+          {
+            name: 'Tuck Front Lever',
+            sets: '5×10-20 сек',
+            muscles: 'Спина, плечи, кор',
+            tech: 'Повисните на турнике. Подтяните колени к груди в положение группировки. Туловище должно быть почти параллельно полу. Держите напряжение спины и кора.',
+            mistakes: 'Опущение спины или туловища, неправильное положение плеч, слабое напряжение',
+            prog: 'Tuck Front Lever → Single-leg extended → Full front lever',
+            video: 'https://www.youtube.com/results?search_query=front+lever+tuck'
+          },
+          {
+            name: 'Wide Grip Pull-Ups',
+            sets: '5×8-10',
+            muscles: 'Спина, широчайшие, плечи',
+            tech: 'Хват шире плеч. Опустите плечи вниз и назад, подведите грудь к турнику (не подбородок). Полный диапазон движения от виса до касания грудью.',
+            mistakes: 'Использование инерции и раскачивание, подтягивание подбородком вместо груди',
+            prog: 'Обычные подтягивания широким хватом → с дополнительным весом → weighted pull-ups',
+            video: 'https://www.youtube.com/results?search_query=wide+grip+pull-ups'
+          },
+          {
+            name: 'Assisted Pistol Squat',
+            sets: '4×5-8 каждая нога',
+            muscles: 'Квадрицепсы, ягодицы, подколенные сухожилия, кор',
+            tech: 'Держитесь за палку, кольца или ремень обеими руками. Поднимите одну ногу вверх, согните вторую и опуститесь в полный присед. Используйте руки для ассистенции.',
+            mistakes: 'Чрезмерное использование рук, спина округляется, колено заходит внутрь',
+            prog: 'Пистолет с ассистенцией → с касанием пола второй ногой → чистый пистолет',
+            video: 'https://www.youtube.com/results?search_query=pistol+squat+progression'
+          },
+          {
+            name: 'Hanging Leg Raises',
+            sets: '3×12-15',
+            muscles: 'Нижний пресс, кор, сгибатели бедра',
+            tech: 'Висите на турнике. Согните колени и поднимите их к груди. Опустите контролируемо. Избегайте раскачивания.',
+            mistakes: 'Использование инерции и раскачивание, неполный диапазон, быстрый темп',
+            prog: 'Колени к груди → ноги прямые к груди → ноги выше груди',
+            video: 'https://www.youtube.com/results?search_query=hanging+leg+raises'
+          }
+        ],
+        stretches: [
+          { name: 'Forward Fold', duration: '45 сек', desc: 'Наклонитесь вперед с прямыми ногами, расслабьтесь.' },
+          { name: '90/90 Hip Stretch', duration: '30 сек каждая', desc: 'Сидите, одна нога согнута перед, другая согнута сбоку. Наклоняйтесь вперед.' },
+          { name: 'Quadriceps Stretch', duration: '30 сек каждая нога', desc: 'Встаньте, согните ногу сзади и подтяните пятку к ягодице.' }
+        ]
+      },
+      3: { 
+        name: 'День 3', 
+        subtitle: 'Баланс, Планш и Кор', 
+        duration: '90 мин',
+        exercises: [
+          {
+            name: 'Tuck Planche',
+            sets: '5×15-30 сек',
+            muscles: 'Грудь, плечи, кор, трицепсы',
+            tech: 'Встаньте в упоре лежа. Согните колени, поднимите таз вверх. Туловище должно оставаться горизонтально, близко к телу. Плечи впереди запястий.',
+            mistakes: 'Спина прогибается или округляется, плечи недостаточно впереди запястий',
+            prog: 'Tuck Planche (колени согнуты) → Advanced Tuck (одна нога прямая) → Straddle',
+            video: 'https://www.youtube.com/results?search_query=planche+tuck'
+          },
+          {
+            name: 'Pike Push-Ups (повтор)',
+            sets: '4×8-12',
+            muscles: 'Плечи, верхняя грудь, кор',
+            tech: 'V-образное положение. Согните локти и опустите голову между руками. Выпрямите обратно. Прогрессия к handstand push-ups.',
+            mistakes: 'Локти разводятся, потеря напряжения кора',
+            prog: 'Pike 35° → 60° → 75° → почти вертикально',
+            video: 'https://www.youtube.com/watch?v=paCOGgmLCA0'
+          },
+          {
+            name: 'Push-Ups',
+            sets: '4×10-15',
+            muscles: 'Грудь, трицепсы, плечи, кор',
+            tech: 'Стандартные отжимания. Тело прямое от головы до пяток. Опускайтесь до касания грудью (или близко). Полный контролируемый диапазон.',
+            mistakes: 'Тело не прямое, неполный диапазон, локти в стороны',
+            prog: 'Обычные отжимания → с наклоном ног → отжимания на одной руке',
+            video: 'https://www.youtube.com/results?search_query=perfect+push-up+form'
+          },
+          {
+            name: 'Horizontal Rows',
+            sets: '4×8-10',
+            muscles: 'Спина, бицепсы, кор',
+            tech: 'Висите под брусьями или турником с прямым телом. Подтяните грудь к барам. Опустите контролируемо. Тело остается прямым.',
+            mistakes: 'Тело не прямое, неполное движение, использование инерции',
+            prog: 'С согнутым телом → с прямым телом → с поднятыми ногами',
+            video: 'https://www.youtube.com/results?search_query=horizontal+rows+inverted'
+          },
+          {
+            name: 'Dragon Flag',
+            sets: '4×3-5',
+            muscles: 'Нижний пресс, кор, сгибатели бедра',
+            tech: 'Лежите на скамье, руки за головой держат край. Поднимите прямое тело так, чтобы только верхняя часть спины касалась скамьи. Поднимите и опустите контролируемо.',
+            mistakes: 'Слишком быстрый спуск, согнутое туловище, потеря напряжения',
+            prog: 'Dragon Flag - только спуск → полный диапазон с согнутыми коленами → полный с прямыми ногами',
+            video: 'https://www.youtube.com/results?search_query=dragon+flag'
+          }
+        ],
+        stretches: [
+          { name: 'Chest Doorway Stretch', duration: '30 сек каждая', desc: 'В дверном проеме, рука на косяке. Разверните туловище в сторону.' },
+          { name: 'Pancake Stretch', duration: '45 сек', desc: 'Встаньте ногами вместе, наклонитесь вперед к ногам, расслабьтесь.' },
+          { name: 'Hip Flexor Stretch', duration: '30 сек каждая', desc: 'В положении выпада. Передняя нога согнута, задняя на полу.' }
+        ]
+      }
+    };
+
+    function renderDay(d) {
+      const x = data[d];
+      let h = `<div class="day-content"><h2>${x.name} - ${x.subtitle}</h2><p>⏱️ ${x.duration}</p>`;
+      
+      x.exercises.forEach(e => {
+        h += `<div class="exercise">
+          <div class="exercise-header" onclick="this.parentElement.classList.toggle('expanded'); this.parentElement.querySelector('.exercise-details').style.display = this.parentElement.classList.contains('expanded') ? 'block' : 'none'">
+            <div>
+              <div class="exercise-title">${e.name}</div>
+              <div class="exercise-info">${e.sets} • ${e.muscles}</div>
+            </div>
+            <input type="checkbox" class="checkbox" onclick="event.stopPropagation()">
+          </div>
+          <div class="exercise-details" style="display:block;">
+            <div class="detail-section"><div class="detail-label">📋 Техника</div><div class="detail-text">${e.tech}</div></div>
+            <div class="detail-section"><div class="detail-label">⚠️ Ошибки</div><div class="detail-text">${e.mistakes}</div></div>
+            <div class="detail-section"><div class="detail-label">📈 Прогрессия</div><div class="detail-text">${e.prog}</div></div>
+            <a href="${e.video}" target="_blank" class="video-button">📹 Видео</a>
+          </div>
+        </div>`;
+      });
+      
+      h += '<div class="stretching-section"><h3>🧘 Растяжка (15 минут)</h3>';
+      x.stretches.forEach(s => {
+        h += `<div class="exercise">
+          <div class="exercise-header" onclick="this.parentElement.classList.toggle('expanded'); this.parentElement.querySelector('.exercise-details').style.display = this.parentElement.classList.contains('expanded') ? 'block' : 'none'">
+            <div>
+              <div class="exercise-title">${s.name}</div>
+              <div class="exercise-info">${s.duration}</div>
+            </div>
+            <input type="checkbox" class="checkbox" onclick="event.stopPropagation()">
+          </div>
+          <div class="exercise-details" style="display:block;"><div class="detail-text">${s.desc}</div></div>
+        </div>`;
+      });
+      h += '</div></div>';
+      
+      document.getElementById('dayContent').innerHTML = h;
+    }
+
+    function switchDay(d) {
+      document.querySelectorAll('.day-btn').forEach((b, i) => b.classList.toggle('active', i === d - 1));
+      renderDay(d);
+    }
+
+    renderDay(1);
+  </script>
+</body>
+</html>
